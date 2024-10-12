@@ -1,0 +1,16 @@
+{
+    "folders": [],
+    "settings": {
+        "liveServer.settings.multiRootWorkspaceName": "icecream_shop_workspace",
+        "php.validate.executablePath": "C:/xampp/php/php.exe",
+        "php.suggest.basic": false,
+        "php.executablePath": "C:/xampp/php/php.exe",
+        "files.associations": {
+            "*.php": "php"
+        }
+    },
+    "launch": {
+        "version": "0.2.0",
+        "configurations": []
+    }
+}

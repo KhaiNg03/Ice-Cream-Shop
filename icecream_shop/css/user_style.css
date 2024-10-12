@@ -1,0 +1,1990 @@
+*{
+    margin: 0;
+    padding: 0px; /* Thay đổi thành 8px để rõ ràng hơn */
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+    text-decoration: none;
+    list-style: none;
+}
+/*------vaiables--------*/
+:root {
+    --space: 2rem;
+    --main-color: #da6285;
+    --pink-color: #ff8e9d; /* Ví dụ về màu hồng */
+    --pink-opacity: #ffe6e9; /* Màu hồng với độ trong suốt */
+    --white-alpha-40: rgba(255, 255, 255, 0.40); /* Màu trắng với độ trong suốt 40% */
+    --white-alpha-25: rgba(255, 255, 255, 0.25); /* Màu trắng với độ trong suốt 25% */
+    --backdrop-filter: blur(5px);
+    --box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.40); /* Đổ bóng cho phần tử */
+}
+/*------global styling--------*/
+body{
+    background-image: url('../image/bg1.webp');
+    background-position: center;
+}
+html{
+    scroll-behavior: smooth;
+}
+.btn {
+    background-color: var(--white-alpha-25);
+    border: 2px solid var(--white-alpha-40);
+    backdrop-filter: var(--backdrop-filter);
+    box-shadow: var(--box-shadow);
+    text-transform: capitalize;
+    color: var(--main-color);
+    padding: .8rem 2rem;
+    border-radius: 1.5rem;
+    font-size: 20px;
+    cursor: pointer;
+    position: relative;
+    text-align: center;
+}
+.btn::before{
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    border-radius: 30px;
+    background-color: var(--main-color);
+    z-index: -1;
+    transition: width 0.3s ease;
+}
+.btn:hover::before{
+    width: 100%;
+}
+.btn:hover {
+    color: white; /* Change text color to white when hovered */
+}
+.empty{
+    background-color: var(--white-alpha-25);
+    border: 2px solid var(--white-alpha-40);
+    backdrop-filter: var(--backdrop-filter);
+    box-shadow: var(--box-shadow);
+    text-transform: capitalize;
+    color: var(--main-color);
+    padding: 1.5rem;
+    text-align: center;
+    margin: 2rem auto;
+    width: 50vw;
+    border-radius: .5rem;
+    line-height: 2;
+}
+.empty p{
+    font-size: 20px;
+}
+input[type='submit']{
+    cursor: pointer;
+}
+input[type='submit']:hover{
+    cursor: var(--main-color);
+}
+.box-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+    align-items: center;
+}
+.box-container .box{
+    background-color: var(--white-alpha-25);
+    border: 2px solid var(--white-alpha-40);
+    backdrop-filter: var(--backdrop-filter);
+    box-shadow: var(--box-shadow);
+    margin: 1rem;
+    border-radius: .5rem;
+}
+.heading{
+    text-align: center;
+    line-height: 1.5;
+}
+.heading h1{
+    font-size: 2rem;
+    text-transform: capitalize;
+}
+.heading span{
+    color: var(--main-color);
+    text-transform: capitalize;
+    font-size: 16px;
+}
+.heading img{
+    margin-top: .5rem;
+    width: 150px!important;
+}
+.flex-btn{
+    display: flex;
+    justify-content: center;
+}
+.flex-btn .btn{
+    margin: .5rem;
+}
+.banner {
+    width: 100%;
+    height: 80vh; /* Fixed the typo from '8ovh' to '80vh' */
+    background-image: url("../image/banner.jpg"); /* Corrected 'background-inage' to 'background-image' and 'ur(' to 'url(' */
+    background-position: center center;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+}
+.banner .detail {
+    padding-left: 4%; /* Changed from 'place-content: 4%' to 'padding: 4%' for layout adjustment */
+    color: gray;
+    line-height: 1.5; /* Fixed typo from 'Line-height' to 'line-height' */
+}
+.banner .detail p {
+    font-size: 16px;
+    margin-bottom: 1rem; /* Corrected 'rem;' to '1rem;' for proper spacing */
+}
+.banner .detail h1 {
+    text-transform: capitalize;
+    color: #000;
+}
+.banner .detail span {
+    text-transform: uppercase;
+    font-size: 1.1rem;
+    margin-top: 1rem;
+}
+.banner .detail span a {
+    color: var(--main-color);
+}
+.banner .detail span i {
+    margin: 0 1rem;
+}
+/*-----custom scroll bar-------*/
+::-webkit-scrollbar{
+    width: 5px;
+}
+::-webkit-scrollbar-thumb{
+    --webkit-border-radius: 20px;
+    border-radius: 20px;
+    height: 40px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    background-color: var(--pink-color);
+    position: relative;
+}
+::-webkit-scrollbar-track{
+    background-color: transparent;
+    --webkit-border-radius: 20px;
+    border-radius: 20px;
+    height: 40px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+/*----------form container--------*/
+.form-container {
+    display: flex;                /* Sử dụng Flexbox để sắp xếp phần tử con */
+    align-items: center;          /* Căn giữa các phần tử theo chiều dọc */
+    justify-content: center;      /* Căn giữa các phần tử theo chiều ngang */
+    flex-direction: column;
+    min-height: 100vh;            /* Chiều cao tối thiểu là 100% chiều cao của viewport */
+    padding: 4% 0;                  /* Khoảng cách bên trong là 4% chiều rộng của phần tử chứa */
+    position: relative;           /* Đặt vị trí của phần tử để có thể sử dụng các thuộc tính vị trí khác */
+    background-image: url("../image/bg1.webp");
+}
+.form-container form {
+    background-color: var(--white-alpha-25); /* Màu nền của form */
+    border: 2px solid var(--white-alpha-40); /* Đường viền của form với độ trong suốt 40% */
+    backdrop-filter: var(--backdrop-filter); /* Bộ lọc nền của form */
+    box-shadow: var(--box-shadow); /* Đổ bóng cho form */
+    border-radius: 0.5rem; /* Bo tròn góc của form */
+    padding: 2rem; /* Khoảng cách bên trong form */
+}
+.form-container form .flex{
+    display: flex;
+    gap: 2rem;
+}
+.form-container .flex .col{
+    flex: 1 1 25rem;
+}
+.form-container .login{
+    width: 50rem;
+}
+.form-container .register{
+    width: 60rem;
+}
+.form-container .register .img-box {
+    text-align: center; /* Căn giữa nội dung bên trong img-box */
+    margin-bottom: 1rem; /* Khoảng cách phía dưới img-box */
+}
+.form-container .register .img-box img {
+    width: 180px; /* Chiều rộng của hình ảnh */
+    height: 180px; /* Chiều cao của hình ảnh */
+    border-radius: 50%; /* Bo tròn góc của hình ảnh */
+    text-align: center; /* Căn giữa nội dung bên trong hình ảnh (nếu có) */
+    padding: 10px; /* Khoảng cách bên trong hình ảnh */
+    background-color: var(--main-color); /* Màu nền của hình ảnh */
+}
+.form-container form h3 {
+    text-align: center; /* Căn giữa tiêu đề */
+    font-size: 2rem; /* Kích thước chữ của tiêu đề */
+    margin-bottom: 1rem; /* Khoảng cách phía dưới tiêu đề */
+    color: var(--main-color); /* Màu chữ của tiêu đề */
+    text-transform: capitalize; /* Viết hoa ký tự đầu tiên của mỗi từ trong tiêu đề */
+    font-weight: bolder; /* Độ đậm của chữ tiêu đề */
+}
+.form-container form p{
+    padding-top: 1rem; /* Khoảng cách phía trên của đoạn văn */
+    font-size: 1.2rem; /* Kích thước chữ của đoạn văn */
+    text-transform: capitalize; /* Viết hoa ký tự đầu tiên của mỗi từ trong đoạn văn */
+}
+.form-container form p span{
+    color: red;
+}
+.form-container form .link{
+    padding-bottom: 1rem;
+    font-size: 1.2rem;
+    text-transform: capitalize;
+}
+.form-container form .link a{
+    color: var(--main-color);
+}
+.form-container form .link a:hover{
+    color: var(--pink-color);   
+    text-decoration: underline;
+}
+.form-container form .box{
+    background-color: var(--white-alpha-25); /* Màu nền của form */
+    border: 2px solid var(--white-alpha-40); /* Đường viền của form với độ trong suốt 40% */
+    backdrop-filter: var(--backdrop-filter); /* Bộ lọc nền của form */
+    box-shadow: var(--box-shadow); /* Đổ bóng cho form */
+    width: 100%;
+    border-radius: .5rem;
+    margin: .5rem 0;
+    font-size: 1.3rem;
+    padding: 1rem;
+}
+.form-container form .textarea{
+    height: 20rem;
+    resize: none;
+}
+.form-container form .btn{
+    width: 100%;
+    font-size: 1.3rem; 
+}
+.form-container .image{
+    width: 100%;
+    height: 30rem;
+}
+.post-editor  input[type="submit"]{
+    width: 49%;
+}
+/*----------header--------*/
+.header {
+    padding: 0.5rem 4%; /* Fixed typo '.Srem' to '0.5rem' */
+    background-color: #FFF; /* Fixed color code typo 'FAFSEE' to 'FAF8EE' */
+    box-shadow: 0 5px 10px 0 #aaa; /* Fixed 'box-shadow' syntax and color to use rgba */
+    position: sticky;
+    top: 0; /* Fixed typo '©' to '0' */
+    left: 0; /* Fixed typo '6' to '0' */
+    right: 0; /* Fixed typo 'o' to '0' */
+    z-index: 1000;
+}
+.header .flex {
+    padding: 0.5rem 2rem; /* Fixed typo '.Srem' to '0.5rem' */
+    position: relative;
+    display: flex;
+    align-items: center; /* Fixed typo 'align-itens' to 'align-items' */
+    justify-content: space-between; /* Fixed typo 'Jjustify-content' to 'justify-content' */
+}
+.header .flex .search-form {
+    width: 30rem; /* Corrected from '3erem' to '30rem' */
+    border-radius: 0.5rem; /* Corrected from '.5rem' to '0.5rem' */
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 1rem 2rem;
+    background-color: var(--pink-opacity); /* Ensure '--pink-opacity' is defined in your CSS variables */
+}
+.header .flex .search-form input {
+    width: 100%;
+    background: none;
+    font-size: 1.1rem;
+    box-shadow: none;
+}
+.header .flex .search-form button {
+    font-size: 1.1rem;
+    color: var(--main-color);
+    cursor: pointer;
+    background: none;
+    box-shadow: none;
+}
+.header .flex .icons div,
+.header a i {
+    font-size: 2rem;
+    color: var(--main-color);
+    height: 2.5rem;
+    width: 2.5rem;
+    line-height: 2.4rem;
+    text-align: center;
+    margin-left: 0.5rem; /* Corrected '.Srem' to '0.5rem' */
+    cursor: pointer;
+}
+.header sup {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: var(--main-color);
+    position: absolute;
+    top: 20%;
+    color: #fff;
+    line-height: 20px; /* Corrected from 26px to match the height */
+    margin-left: -1rem; /* Corrected capitalization */
+    text-align: center;
+}
+#search-btn {
+    display: none;
+}
+#menu-btn {
+    display: none;
+}
+.header .flex .profile-detail{
+    background-color: var(--white-alpha-25); /* Màu nền của form */
+    border: 2px solid var(--white-alpha-40); /* Đường viền của form với độ trong suốt 40% */
+    backdrop-filter: var(--backdrop-filter); /* Bộ lọc nền của form */
+    box-shadow: var(--box-shadow); /* Đổ bóng cho form */
+    position: absolute;
+    top: 125%;
+    right: 2rem;
+    border-radius: .5rem;
+    width: 22rem;
+    padding: 1.5rem .5rem; /* Sửa padding */
+    animation: fadeIn 0.2s linear; /* Sửa cú pháp animation */
+    text-align: center;
+    overflow: hidden;
+    display: none;
+}
+@keyframes fadeIn {
+    0% {
+        opacity: 0; /* Bắt đầu với độ mờ 0 */
+        transform: translateY(1rem); /* Di chuyển từ dưới lên 1rem */
+    }
+    100% {
+        opacity: 1; /* Kết thúc với độ mờ 1 */
+        transform: translateY(0); /* Di chuyển về vị trí gốc */
+    }
+}
+.profile-detail.active {
+    display: inline-block;
+}
+.profile-detail h3{
+    padding-bottom: 0.7rem; /* Khoảng cách bên dưới đoạn văn */
+    font-size: 1.5rem; /* Kích thước font */
+    text-transform: capitalize; /* Viết hoa chữ cái đầu tiên của mỗi từ */
+    color: #000; /* Màu sắc văn bản */
+}
+.profile-detail .flex-btn {
+    display: flex; /* Sử dụng Flexbox */
+    justify-content: space-evenly; /* Căn chỉnh các phần tử đều khoảng cách */
+}
+.profile-detail .flex-btn .btn {
+    margin: 0 .5rem; /* Khoảng cách bên ngoài các nút */
+}
+.profile-detail img {
+    width: 10rem; /* Adjust this value as needed */
+    height: 10rem; /* Adjust this value as needed */
+    border-radius: 50%;
+    padding: 0.5rem; /* Corrected from '.Srem' to '0.5rem' */
+    object-fit: cover;
+    margin-bottom: 0.5rem; /* Corrected from '.5rer' to '0.5rem' */
+    background-color: var(--main-color);
+}
+.header .navbar {
+    display: flex;
+    margin: 0.5rem 0; /* Adjust as needed */
+    display: inline;
+}
+.header .navbar a {
+    font-size: 1.3rem;
+    margin: 0 0.5rem; /* Adjust as needed */
+    text-transform: capitalize;
+    color: #000;
+}
+.header .navbar a:hover {
+    color: var(--main-color); /* Ensure --main-color is defined in your CSS variables */
+}
+@media (max-width: 991px) {
+    #search-btn, 
+    #menu-btn {
+        display: inline-block;
+    }
+    .header .flex .search-form {
+        position: absolute;
+        top: 99%;
+        left: 0;
+        right: 0;
+        width: auto;
+        border-top: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+        background-color: #fff;
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        transition: .2s linear;
+        display: none;
+    }
+    .header .flex .search-form.active {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        display: block;
+    }
+    .header .flex .navbar {
+        display: block;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: #fff;
+        border-top: 0.1rem solid #fff3;
+        padding: 1rem 2rem;
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        transition: .5s;
+        display: none;
+    }
+    .header .flex .navbar.active {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        display: block;
+    }
+    .header .flex .navbar a {
+        display: block;
+        margin: 1.5rem 0;
+        padding: 1rem;
+        background-color: var(--main-color); /* Đảm bảo rằng bạn đã định nghĩa biến này trong CSS của bạn */
+        text-align: center;
+        border-radius: 0.5rem; /* Điều chỉnh giá trị của border-radius */
+        color: #fff; /* Đảm bảo mã màu đúng */
+        text-decoration: none; /* Xóa gạch chân nếu có */
+    }
+    .header .flex .navbar a:hover {
+        color: #000; /* Điều chỉnh mã màu khi di chuột qua liên kết */
+    }
+    
+}
+.slider-container {
+    position: relative;
+    width: 100%;
+    min-height: 110vh; /* Ensure full viewport height */
+    margin-bottom: 5rem; /* Fixed margin-bottom value */
+}
+.slider-container .slideBox {
+    position: absolute;
+    top: 0; /* Fixed position */
+    right: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition:  0.5s; /* Fixed transition property */
+}
+.slider-container .slideBox.active {
+    opacity: 1;
+}
+.slider-container .textBox {
+    position: absolute;
+    top: 30%;
+    left: 5%;
+    text-align: center;
+}
+
+.slider-container .slideBox img {
+    width: 100%; /* Adjust as needed */
+    height: 110vh;
+    object-fit: cover; /* Ensure the image covers the area properly */
+}
+
+.slider-container .textBox h1 {
+    font-size: 3rem;
+    color: #000;
+    text-transform: capitalize;
+    margin-bottom: 2rem;
+}
+
+.slider-container .textBox p {
+    font-size: 16px;
+    margin-bottom: 2rem; /* Fixed margin-bottom value */
+}
+.slider-container .controls {
+    position: absolute;
+    top: 38%;
+    right: 0;
+}
+.slider-container .controls li {
+    position: relative;
+    width: 60px;
+    height: 60px; /* sửa "6epx" thành "60px" */
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center; /* sửa "Jjustify-content" thành "justify-content" */
+    align-items: center;
+}
+.slider-container .controls i {
+    font-size: 2rem; /* sửa "if" thành "i" */
+}
+.service {
+    padding: 6%;
+}
+.service .box-container .box {
+    background-color: var(--pink-opacity);
+    margin: 1rem; /* Đã thêm giá trị cho margin */
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly; /* Sửa lại justify-content */
+    padding: 2rem;
+    text-transform: capitalize;
+    text-align: center;
+    line-height: 1.5; /* Sửa lại line-height */
+}
+.service .box-container .box .detail {
+    border-left: 1px solid #000;
+    padding-left: 2rem;
+}
+.service .box-container .box h4 {
+    font-size: 1.5rem;
+}
+
+.service .box-container .box .icon {
+    cursor: pointer;
+    overflow: hidden;
+    width: 130px; /* Giả định sửa lỗi từ "1360p" thành "100%" hoặc giá trị phù hợp */
+}
+
+.service .box-container .box .icon-box {
+    display: flex;
+    width: 200%;
+    transition: .2s ease-in-out;
+}
+
+.service .box-container .box .icon-box .img1,
+.service .box-container .box .icon-box .img2 {
+    flex: 1 0 50%; 
+    width: 40px; 
+    height: 60px;
+    object-fit: contain;
+}
+.service .box-container .box:hover .icon-box {
+    transform: translateX(-50%);
+}
+.categories {
+    padding: 4%;
+}
+.categories .box-container {
+    padding-top: 4%;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+}
+.categories .box-container .box {
+    margin: 0.5rem;
+    position: relative;
+    overflow: hidden;
+}
+.categories .box-container .box:hover img {
+    transform: scale(1.1);
+}
+.categories .box-container .box img {
+    width: 100%;
+    transition: transform 0.5s;
+}
+.categories .box-container .box a {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    z-index: 11;
+    width: 90%;
+    text-align: center;
+    margin: 0 auto;
+    font-size: 1.5rem;
+    color: #000;
+    text-decoration: none;
+}
+.menu-banner{
+    width: 100%;
+}
+.taste {
+    background-image: url("../image/bn3.3.webp");
+    padding: 4% 6%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+.taste .box-container .box {
+    position: relative;
+}
+.taste .box-container .box .detail {
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    top: 10%;
+    line-height: 1.5;
+    text-transform: capitalize;
+}
+.taste .box-container .box img {
+    width: 100%;
+    outline: 0.1rem solid #FFF; /* White outline with 0.1rem thickness */
+    outline-offset: -0.5rem;
+    border-radius: .5rem;
+    transition: .5s;
+}
+.taste .box-container .box:hover img {
+    outline: 2px solid var(--main-color); /* Outline with a 2px thickness and the color specified by --main-color */
+    outline-offset: -0.2rem;               /* Negative offset to move the outline inward */
+}
+.ice-container {
+    position: relative;
+    background-image: url("../image/ice-bg.webp");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+.ice-container .overlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: #000;
+    opacity: 0.5;
+}
+.ice-container .detail {
+    width: 100%;
+    position: absolute;
+    top: 30%;
+    text-align: center;
+    color: #FFF;
+}
+.ice-container .detail h1 {
+    font-size: 3rem;
+}
+.ice-container .detail p {
+    font-size: 1.5rem;
+    line-height: 1.5;
+    padding-bottom: 2em;
+}
+.ice-container .detail .btn {
+    background-color: #000;
+}
+.taste2 {
+    max-width: 1200px; /* Fixed the max-width value */
+    margin: 3rem auto;
+}
+.taste2 .t-banner {
+    background-image: url('../image/bg.png'); /* Corrected the URL format */
+    min-height: 40vh; /* Fixed the min-height value */
+    border-radius: 20px;
+    position: relative;
+    box-shadow: var(--box-shadow); /* Ensure --box-shadow is defined in your variables */
+    margin: 1rem;
+}
+.taste2 .t-banner .overlay {
+    position: absolute;
+    width: 100%;
+    top: 0; /* Corrected position values */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ffffff99; /* Semi-transparent background */
+}
+.taste2 .t-banner .detail {
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    top: 30%;
+    line-height: 1.5;
+}
+.taste2 .t-banner .detail p{
+    color: #666;
+    margin-bottom: 2rem;
+    font-size: 20px;
+}
+.taste2 .t-banner .detail h1{
+    text-transform: capitalize;
+}
+.taste2 .box-container .box{
+    position: relative;
+    overflow: hidden;
+}
+.taste2 .box-container .box img{
+    width: 100%;
+}
+.taste2 .box-container .box .box-overlay{
+    position: absolute;
+    background-color: var(--pink-opacity);
+    height: 99%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    opacity: 0;
+    -webkit-transition: all 0.4s ease-in-out 0s;
+    -moz-transition: all 0.4s ease-in-out 0s;
+    transition: all 0.4s ease-in-out 0s;
+}
+.taste2 .box-container .box:hover .box-overlay {
+    opacity: 0.7;
+}
+.taste2 .box-container .box .box-details {
+    position: absolute;
+    text-align: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    opacity: 0;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    -webkit-transition: all 0.3s ease-in-out 0s;
+    -moz-transition: all 0.3s ease-in-out 0s;
+    transition: all 0.3s ease-in-out 0s;
+}
+.taste2 .box-container .box:hover .box-details {
+    opacity: 1;
+    top: 50%;
+    left: 50%;
+}
+.taste2 .box-container .box .box-details h1 {
+    color: var(--main-color);
+    font-weight: 500; /* Thay đổi từ 560 thành 600, do 560 không phải là giá trị hợp lệ cho font-weight */
+    letter-spacing: 0.15em; /* Sửa lại từ 6.15em thành 0.15em, vì 6.15em là quá lớn */
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+.taste2 .box-container .box .box-details p {
+    color: #666;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+.flavor .box-container {
+    background-color: var(--pink-opacity);
+}
+.flavor .box-container img {
+    width: 100%;
+}
+.flavor .box-container .detail {
+    text-align: center;
+    line-height: 1.5;
+    padding: 2rem 0;
+}
+.flavor .box-container .detail h1 {
+    font-size: 3rem;
+}
+.flavor .box-container .detail h1 span {
+    color: var(--main-color);
+}
+.flavor .box-container .detail p {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+.usage {
+    background-image: url("../image/bn.png"); /* Sửa URL và định dạng */
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center; /* Sửa lỗi cú pháp */
+    background-attachment: fixed;
+    padding: 4%;
+}
+.usage .row {
+    display: flex;
+    align-items: center;
+}
+.usage .row .divider {
+    padding: 1rem; /* Sửa dấu phẩy thành dấu chấm phẩy */
+    width: 45%;
+}
+.usage .row .box-container .box {
+    display: flex;
+    flex-direction: row-reverse;
+    padding: 1rem;
+    align-items: center;
+}
+.usage .row .box-container .box img {
+    width: 70px;
+    height: 70px; /* Sửa 7@px thành 70px */
+    margin-left: 0.4rem;
+}
+.usage .row .box-container .box h3 {
+    font-size: 1.5rem;
+}
+.usage .row .box-container .box p {
+    color: #666;
+    padding: 1rem 0;
+    font-size: 1.1rem;
+}
+.usage .row .box-container:first-child {
+    text-align: right; /* Sửa cú pháp dấu ngoặc đơn */
+}
+.pride {
+    background-image: url('../image/ice-creem-banner-bg.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 8px 8px;
+    padding: 226px 273px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    text-align: center;
+}
+.pride .detail {
+    padding-right: 10%;
+}
+.pride .detail p {
+    color: #666;
+    font-size: 28px;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}
+.newsletter {
+    background-image: url("../image/bn3.3.webp");
+    padding-top: 70px;
+    padding-bottom: 10px;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    line-height: 1.5; /* line-height is usually set to a unitless value or a length */
+    text-align: center;
+}
+.newsletter span {
+    font-size: 1rem;
+    background-color: var(--pink-opacity);
+    color: var(--main-color);
+    text-transform: uppercase;
+    border-radius: 15px;
+    padding: 0.5rem 1rem; /* Corrected padding syntax */
+}
+.newsletter h1 {
+    font-size: 2.5rem;
+    margin: 0.5rem;
+    text-transform: capitalize;
+}
+.newsletter .input-field {
+    margin: 1.5rem 0;
+}
+.newsletter input {
+    padding: 1rem;
+    border-radius: 10px;
+    width: 30vw; /* Assuming you meant viewport width, changed '3ew' to '30vw' */
+    background-color: var(--pink-opacity);
+}
+.newsletter .box-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: .5rem;
+}
+.newsletter .box-container .box {
+    background-color: var(--pink-opacity);
+    box-shadow: var(--box-shadow);
+    margin: 1rem;
+    padding: 2rem 4rem;
+    border-radius: 10px;
+}
+.newsletter .box-container .box-counter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+.newsletter .box-container .box-counter .counter,
+.newsletter .box-container .box-counter i {
+    color: #000;
+    font-size: 3rem;
+}
+.newsletter .box-container h3 {
+    font-size: 1.5rem;
+    color: var(--main-color);
+}
+footer {
+    background-image: url('../image/footer-bg.jpg'); /* Fixed the closing quote and file extension */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 259px 0 0; /* Changed to valid CSS units */
+    width: 100%; /* Adjusted width to 100% to fit container */
+}
+footer .content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); /* Corrected '1Srem' to '15rem' */
+    align-items: center;
+    justify-content: center; /* Fixed 'Jjustify-content' to 'justify-content' */
+}
+footer .content .box {
+    margin: 1rem; /* Fixed margin value */
+    line-height: 1.7;
+}
+footer .content .box .btn {
+    text-align: center;
+    padding: 0.5rem; /* Fixed the padding value */
+}
+footer .content .box .btn:hover {
+    color: #FFF; /* Ensure the hover color is set correctly */
+}
+footer .content .box h3 {
+    text-transform: capitalize;
+    margin-bottom: 0.5rem;
+}
+footer .content .box a {
+    font-size: 16px;
+    display: block;
+    color: #000; /* Ensure color is set correctly */
+    text-transform: capitalize;
+}
+footer .content .box a {
+    font-size: 16px;
+    display: block;
+    color: #000; /* Black color for links */
+    text-transform: capitalize;
+}
+footer .content .box a:hover {
+    color: var(--main-color); /* Hover color from CSS variable */
+}
+footer .content .box i {
+    margin-right: 0.5rem; /* Fixed margin value */
+}
+footer .content .box p {
+    line-height: 1.5; /* Line height for paragraphs */
+}
+footer .content .box .icons {
+    margin-top: 1rem; /* Margin above the icons */
+}
+footer .content .box .icons i {
+    padding: 7px;
+    width: 48px; /* Corrected width value */
+    height: 48px; /* Set to match height for a circular icon */
+    line-height: 48px; /* Matches height to vertically center the icon */
+    text-align: center; /* Centers the icon horizontally */
+    border-radius: 50%; /* Makes the icon circular */
+    background-color: var(--pink-opacity); /* Background color */
+    border: 1px solid var(--main-color); /* Border color and style */
+    color: var(--main-color); /* Icon color */
+    cursor: pointer; /* Indicates that the icon is clickable */
+}
+footer .bottom {
+    margin-top: 2rem; /* Margin above the bottom section */
+    display: flex; /* Use flexbox for layout */
+    flex-wrap: wrap; /* Allows wrapping of content */
+    justify-content: space-between; /* Space items evenly with space between them */
+    padding: 2rem; /* Padding inside the bottom section */
+    border-top: 1px solid #006; /* Top border color and style */
+    line-height: 2; /* Line height for text */
+}
+footer .bottom a {
+    text-transform: capitalize; /* Capitalizes link text */
+    color: #009; /* Link color */
+}
+/* ----------- About Section ----------- */
+.chef .box {
+    line-height: 1.5;
+    text-align: center;
+    box-shadow: none;
+}
+.chef .box .img {
+    width: 70%;
+    margin-bottom: -2rem;
+}
+.chef .box p {
+    font-size: 1.3rem;
+    color: #666;
+    margin-bottom: 2rem;
+}
+/* Story section */
+.story {
+    background-image: url("../image/about_bg.jpg"); /* Sửa dấu nháy đơn sai thành dấu nháy kép */
+    position: relative;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    flex-direction: column; /* Sửa `Flex-direction` thành `flex-direction` */
+    align-items: center;
+    justify-content: center; /* Sửa `Jjustify-content` thành `justify-content` */
+    min-height: 100vh;
+    text-align: center;
+    line-height: 1.5; /* Sửa `Line-height` thành `line-height` */
+}
+.story p {
+    padding-bottom: 2rem;
+    color: gray; /* Sửa `1 color` thành `color` */
+}
+/* ----------- container ----------- */
+.container {
+    padding: 4%;
+    padding-bottom: 0;
+}
+.container .box-container .img-box {
+    margin: 1rem;
+}
+.container .box-container .img-box img {
+    background-image: url("../image/shap.png");
+    background-size: contain;
+    width: 80%;
+    margin-bottom: -1.1rem;
+}
+.container .box-container .box {
+    text-align: center;
+    line-height: 2;
+    box-shadow: none;
+}
+.container .box-container p {
+    color: #666;
+    font-size: 16px;
+    margin-bottom: 2rem;
+}
+.team {
+    background-image: url('../image/bn3.3.webp');
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 108px 6%;
+}
+.team .box-container .box {
+    overflow: hidden;
+}
+.team .box-container .box .img {
+    width: 100%;
+    transition: .5s;
+}
+.team .box-container .box:hover .img {
+    transform: scale(1.1);
+}
+.team .box-container .box .content {
+    position: relative;
+    display: block;
+    background-color: #FFF;
+    padding: 43px 30px 42px 30px;
+    margin-top: -80px;
+    border-top-right-radius: 80px;
+    text-align: center;
+    line-height: 1.5;
+    text-transform: capitalize;
+}
+.team .box-container .box .content .shap {
+    position: absolute;
+    left: 0;
+    top: -80px; /* Sửa lại giá trị đúng cho thuộc tính top */
+    width: 80px; /* Sửa lại giá trị đúng cho thuộc tính width */
+    height: 80px; /* Sửa lại giá trị đúng cho thuộc tính height */
+    background-repeat: no-repeat;
+}
+.standers {
+    background-image: url('../image/std.jpg');
+    padding: 135px 0 210px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    align-items: flex-start;
+    text-align: center;
+    line-height: 1.5;
+    padding-left: 6%;
+}
+.standers p {
+    font-size: 1.6rem;
+    color: #666;
+}
+.standers i {
+    font-size: 2rem;
+    color: var(--main-color);
+}
+.testimonial {
+    width: 800px;
+    margin: 2rem auto;
+}
+.testimonial-container {
+    overflow: hidden;
+}
+.slide-row {
+    display: flex;
+    flex-wrap: wrap;
+    width: 3200px;
+    transition: 0.5s;
+}
+.slide-col {
+    width: 800px;
+    height: 400px;
+    position: relative;
+}
+.user-img {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+}
+.user-img img {
+    height: 100%;
+    border-radius: 10px;
+    width: 320px;
+    object-fit: cover;
+}
+.user-text {
+    background-color: var(--white-alpha-25);
+    border: 2px solid var(--white-alpha-40);
+    border-radius: 16px;
+    box-shadow: var(--box-shadow);
+    backdrop-filter: var(--backdrop-filter);
+    width: 520px;
+    height: 270px;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #4d4352;
+    padding: 45px;
+    z-index: 2;
+}
+.user-text p {
+    font-size: 18px;
+    line-height: 24px;
+}
+.user-text h2 {
+    margin: 35px 0 5px;
+}
+.indicator {
+    display: flex;
+    justify-content: center;
+    margin-top: 4rem;
+}
+.indicator .btn1 {
+    display: inline-block;
+    height: 15px;
+    width: 15px;
+    margin: 4px;
+    background-color: #000;
+    cursor: pointer;
+    transition: all 0.5s ease-in-out;
+    border-radius: 15px;
+}
+.indicator .btn1.active {
+    width: 45px;
+    background-color: var(--main-color);
+}
+.mission {
+    background-image: url("../image/bg1.webp");
+    background-position: center;
+    background-size: cover;
+    padding: 4%;
+    position: relative;
+}
+.mission .box-container .box {
+    box-shadow: none; /* Loại bỏ bóng đổ */
+    background-color: transparent; /* Đặt màu nền là trong suốt */
+    border: none; /* Loại bỏ đường viền */
+}
+.mission .box-container .box .detail {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0.6rem 0;
+}
+.mission .box-container .box .detail h2 {
+    color: var(--main-color);
+    margin-bottom: 0.5rem;
+}
+.mission .box-container .box .detail p {
+    color: #666;
+    line-height: 1.5;
+}
+.mission .box-container .box .detail .img-box {
+    text-align: center;
+    margin-right: 1rem;
+}
+.mission .box-container .box .detail .img-box img {
+    width: 130px; /* Sửa lỗi từ '13px' thành '130px' */
+    height: 130px; /* Sửa lỗi từ '13epx' thành '130px' */
+    border-radius: 50%;
+    object-fit: contain;
+    border: 2px dashed var(--main-color);
+}
+.mission .img {
+    width: 100%;
+    margin-bottom: -3.7rem; /* Sửa lỗi từ '3,7renf' thành '3.7rem' */
+}
+/*------------profile-----------*/
+.profile {
+    padding: 5% 8%;
+}
+.profile .details {
+    border-radius: .5rem;
+    padding: 2rem;
+    box-shadow: var(--box-shadow);
+    text-transform: capitalize;
+    margin-top: 2rem;
+}
+.profile .details .user {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+.profile .details .user img {
+    width: 10rem;
+    height: 10rem;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: .5rem;
+    padding: .5rem;
+    background-color: var(--main-color);
+}
+.profile .details .user h3 {
+    font-size: 2rem; 
+    margin: .5rem 0;
+}
+.profile .details .user p { 
+    font-size: 1.7rem; 
+    color: gray; 
+    margin-bottom: 2rem;
+}
+.profile .details .box-container { 
+    display: flex; 
+    flex-wrap: wrap; 
+    align-items: flex-end; 
+    gap: 1.5rem;
+}
+.profile .details .box-container .box {
+    background-color: #cccccc11; /* Sửa lại màu hex */
+    border-radius: .5rem; 
+    padding: 1.5rem 2rem; 
+    flex: 1 1 30rem;
+}
+.profile .details .box-container .box .flex {
+    display: flex; 
+    align-items: center; 
+    gap: 1.7rem; 
+    margin-bottom: 1rem; /* Sửa lại đơn vị */
+}
+.profile .details .box-container .box .flex i {
+    font-size: 2.5rem;
+}
+.profile .details .box-container .box .flex h3 {
+    font-size: 1.5rem; 
+    color: var(--main-color); 
+    margin-bottom: .2rem;
+}
+.profile .details .box-container .box .flex span {
+    font-size: 1.5rem; 
+    color: lightgray; /* Đảm bảo viết đúng cách */
+}
+/*-----------products section-------------------*/
+.products {
+    background-image: url("../image/bg1.webp");
+    padding: 4%;
+}
+.products .box-container .box {
+    position: relative;
+    margin: 1rem;
+    overflow: hidden;
+}
+.products .box-container .box .stock {
+    position: absolute;
+    top: 2%;
+    left: 2%;
+    font-size: 1rem;
+    background-color: var(--white-alpha-40); /* Sửa 'var(--white-alpha-48)' thành 'var(--white-alpha-40)' */
+    padding: 0.4rem 1rem; /* Sửa 'irem' thành '1rem' */
+    border-radius: 10px;
+}
+.products .box-container .box .image {
+    width: 100%;
+    height: 25rem;
+    object-fit: cover;
+    transition: .5s;
+    background-color: palegreen;
+}
+.products .box-container .box:hover .image {
+    transform: scale(1.1);
+}
+.products .box-container .box .content {
+    position: relative;
+    display: block;
+    background-color: #fff; /* Changed from #£ff to #fff for white color */
+    padding: 40px 10px; /* Corrected padding values */
+    margin-top: -80px; /* Corrected margin value */
+    border-top-right-radius: 80px;
+    text-align: center;
+    line-height: 1.5;
+    text-transform: capitalize;
+}
+.products .box-container .box .content .shap {
+    position: absolute;
+    left: 0; /* Changed from 'Left' to 'left' */
+    top: -80px;
+    width: 80px;
+    height: 80px;
+    background-repeat: no-repeat;
+}
+.products .box-container .box h3 {
+    text-transform: capitalize;
+    font-size: 18px;
+}
+.products .box-container .box .price {
+    position: absolute;
+    top: 4%;
+    left: 4%; /* Changed from 'Left' to 'left' */
+    text-transform: capitalize;
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-bottom: 1rem; /* Changed from 'irem' to '1rem' */
+}
+
+.products .box-container .box .button {
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem 0; /* Changed from '©' to '0' for correct margin value */
+}
+
+.products .box-container .box .button button {
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.products .box-container .box .button i,
+.products .box-container .box .button a {
+    color: var(--main-color); /* Sử dụng biến màu chính */
+    margin: 0 0.5rem;
+    font-size: 1.8rem;
+}
+
+.products .box-container .box .button i:hover,
+.products .box-container .box .button a:hover {
+    color: var(--pink-color); /* Sử dụng biến màu hồng khi di chuột qua */
+}
+.products .box-container .box .flex-btn {
+    display: flex; /* Thêm thuộc tính 'display: flex' để sử dụng 'justify-content' */
+    justify-content: space-between;
+}
+.products .box-container .box .flex-btn input {
+    width: 48%;
+    color: var(--main-color);
+    padding: 0.6rem 2rem;
+    border-radius: 1.5rem;
+    font-size: 18px;
+}
+.products .box-container .box .flex-btn .btn {
+    font-size: 18px;
+    height: 45px;
+    padding: 0.5rem 1rem; /* Thêm padding hợp lý */
+}
+.products .more {
+    margin: 3rem auto;
+    text-align: center;
+}
+.products .fa-edit {
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: var(--main-color);
+    width: 200px;
+    border-radius: 20px;
+}
+.sub-total {
+    font-size: 1.5rem;
+    margin: 1rem;
+}
+.cart-total {
+    text-align: center;
+    padding: 4%;
+    margin: 2rem;
+    box-shadow: var(--box-shadow);
+    border-radius: 20px;
+    background-color: var(--white-alpha-25);
+    border: 2px solid var(--white-alpha-40);
+    backdrop-filter: var(--backdrop-filter);
+}
+.cart-total p {
+    font-size: 1.5rem;
+    margin: 2rem 0;
+    text-transform: capitalize;
+}
+.cart-total p span {
+    color: var(--main-color);
+    font-size: 2rem;
+    font-weight: bold;
+}
+.cart-total .button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem;
+}
+.cart-total .button .btn {
+    margin: 0.5rem;
+}
+.view_page { 
+    background-image: url("../image/bn3.3.webp"); 
+    background-attachment: fixed; 
+    background-repeat: no-repeat; 
+    background-size: cover; 
+    padding: 100px 6%; 
+}
+.view_page .box { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    line-height: 2; 
+    flex-wrap: wrap;
+    box-shadow: var(--box-shadow); /* Sửa 'var(--box-shadou)' thành 'var(--box-shadow)' */
+    background-color: var(--white-alpha-25);
+    border: 2px solid var(--white-alpha-40);
+    border-radius: .5rem;
+}
+.view_page .box .img-box,
+.view_page .box .detail { 
+    flex: 1 1 40rem;
+    padding: 2rem;
+}
+.view_page .box .img-box { 
+    width: 100%;
+}
+.view_page .box .img-box img{ 
+    width: 100%; 
+}
+.view_page .box .product-detail {
+    color: lightgray;
+    margin: 1rem 0;
+    line-height: 2;
+}
+.view_page .box .price { 
+    font-size: 2rem; 
+    color: var(--main-color);
+}
+.view_page .box .name {
+    color: var(--main-color);
+    text-transform: capitalize;
+    font-size: 2rem;
+}
+.services {
+    background-image: url('../image/bn3.3.webp');
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 100px 6%;
+    position: relative;
+    min-height: 100vh;
+}
+.services .box-container .box {
+    line-height: 1.5;
+    text-align: center;
+    padding: 2rem 0;
+}
+.services .box-container .box div {
+    margin-left: 2rem;
+}
+.services .box-container .box h1 {
+    font-size: 25px;
+    color: var(--main-color);
+    margin: 0.5rem 0;
+    text-transform: capitalize;
+}
+.form-container label {
+    font-size: 1.5rem;
+    text-transform: capitalize;
+    margin: 1rem 0.5rem;
+}
+.form-container sup {
+    color: red;
+}
+.address {
+    padding: 5% 8%;
+    min-height: 70vh; /* Sửa thành 70vh hoặc giá trị phù hợp với nhu cầu của bạn */
+}
+.address .box {
+    display: flex;
+    justify-content: center; /* Sửa từ 'Jjustify-content' thành 'justify-content' */
+    align-items: center; /* Sửa từ 'align-items: centers' thành 'align-items: center' */
+    line-height: 2; /* Sửa 'Line-height' thành 'line-height' */
+    padding: 2rem 0; /* Sửa ký tự không hợp lệ từ '©' thành giá trị hợp lệ */
+    background-color: var(--pink-opacity); /* Đảm bảo biến màu đã được định nghĩa trong CSS */
+}
+.address .box h4 {
+    text-transform: uppercase;
+    color: var(--main-color); /* Đảm bảo biến màu đã được định nghĩa trong CSS */
+    font-size: 1.5rem;
+}
+.address .box i {
+    font-size: 2.5rem;
+    margin-right: 1rem;
+    width: 50px; /* Đặt kích thước chính xác cho biểu tượng */
+    height: 50px; /* Đặt kích thước chính xác cho biểu tượng */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--main-color); /* Đảm bảo biến màu đã được định nghĩa trong CSS */
+    background-color: #ffff; /* Đảm bảo biến màu đã được định nghĩa trong CSS */
+    box-shadow: var(--box-shadow); /* Đảm bảo biến bóng đã được định nghĩa trong CSS */
+}
+/* ----------------Checkout summary container */
+.checkout {
+    background-image: url("../image/bg1.3.webp");
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 100px 6%;
+}
+
+.checkout .row {
+    display: flex;
+    flex-direction: column;
+    flex-flow: column-reverse;
+}
+.checkout .row .form,
+.checkout .summary {
+    box-shadow: var(--box-shadow);
+    border-radius: .5rem;
+    width: 1000px;
+    padding: 1rem;
+    margin: 1rem auto;
+}
+.checkout .row h3 {
+    font-size: 2rem;
+    padding-bottom: 1rem;
+    text-transform: capitalize;
+    text-align: center;
+}
+/* Form box styling */
+.checkout .row form .box {
+    flex: 1 1 20rem;
+}
+/* Input styling */
+.checkout .row form .input{
+    background-color: var(--white-alpha-25);
+    border: 2px solid var(--white-alpha-48);
+    backdrop-filter: var(--backdrop-filter);
+    box-shadow: var(--box-shadow);
+    width: 100%;
+    border-radius: .5rem;
+    margin: 1rem 0;
+    font-size: 1.3rem;
+    padding: 1rem;
+}
+.checkout .row form .flex {
+    display: flex;
+    column-gap: 1.5rem;
+    flex-wrap: wrap;
+}
+.checkout .row form p {
+    text-align: left;
+    padding-top: .5rem;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    color: gray;
+}
+.checkout .row form span {
+    color: red;
+}
+.checkout .row form .btn {
+    width: 100%;
+}
+.checkout-summary .box-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 1rem; /* Space between grid items */
+}
+/* Checkout summary styling */
+.checkout-summary .name {
+    font-size: 1.2rem;
+    color: #000;
+    text-transform: capitalize;
+}
+
+.checkout-summary .flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 0;
+    margin: 0.5rem;
+}
+.checkout-summary .flex img {
+    box-shadow: var(--box-shadow);
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    padding: 0.5rem;
+    margin-right: 2rem;
+}
+.checkout-summary .price {
+    font-size: 1.5rem;
+    color: red;
+}
+.checkout-summary .grand-total {
+    border-radius: 0.5rem;
+    box-shadow: var(--box-shadow);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    font-size: 2rem;
+    margin-top: 1.5rem;
+    text-transform: capitalize;
+    padding: 2rem 0;
+}
+.checkout-summary .grand-total p {
+    color: red;
+    margin-left: 0.5rem;
+}
+/* Checkout summary styling */
+.checkout-summary .box-container {
+    display: flex;
+    flex-direction: column; /* Đảm bảo sản phẩm hiển thị theo cột */
+    gap: 1rem; /* Khoảng cách giữa các sản phẩm */
+    max-height: 400px; /* Giới hạn chiều cao */
+    overflow-y: auto; /* Thêm thanh cuộn khi danh sách sản phẩm dài */
+}
+
+.checkout-summary .flex {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Canh trái sản phẩm */
+    padding: 1rem;
+    border-bottom: 1px solid #ccc; /* Đường viền để phân cách sản phẩm */
+}
+
+.checkout-summary .flex img {
+    box-shadow: var(--box-shadow);
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin-right: 2rem;
+}
+
+.checkout-summary .price {
+    font-size: 1.5rem;
+    color: red;
+}
+
+.checkout-summary .grand-total {
+    border-radius: 0.5rem;
+    box-shadow: var(--box-shadow);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    margin-top: 1.5rem;
+    text-transform: capitalize;
+    padding: 2rem 0;
+}
+
+.checkout-summary .grand-total p {
+    color: red;
+    margin-left: 0.5rem;
+}
+
+/*--------------------------*/
+.orders {
+    background-image: url('../image/bg1.webp');
+    background-size: cover;
+}
+.orders .box-container {
+    padding: 2% 6%;
+}
+.orders .box-container .box {
+    position: relative;
+    margin: 1rem;
+    border-radius: .5rem;
+    overflow: hidden;
+}
+.orders .box-container .box:hover .image {
+    transform: scale(1.1);
+}
+.orders .box-container .box .content {
+    position: relative;
+    display: block;
+    background-color: #fff; /* Fixed the color code */
+    padding: 60px 20px; /* Fixed the units and spacing */
+    margin-top: -80px; /* Fixed the units */
+    border-top-right-radius: 80px; /* Fixed the units */
+    text-align: center;
+    line-height: 1.5;
+    text-transform: capitalize;
+}
+.orders .box-container .box .content .shap{
+    position: absolute;
+    left: 0; /* Fixed the units */
+    top: -80px;
+    width: 80px;
+    height: 80px;
+    background-repeat: no-repeat;
+}
+.orders .box-container .box a .row {
+    display: flex;
+    justify-content: space-between; /* Fixed the capitalization */
+}
+.orders .box-container .box .date {
+    position: absolute;
+    top: 5%;
+    left: 1%;
+    padding: 0.5rem 1.5rem; /* Fixed the units */
+    color: #fff; /* Fixed the color code */
+    font-size: 0.6rem; /* Fixed the units */
+    display: inline-block;
+    border-radius: 0.5rem; /* Fixed the units */
+    background-color: var(--main-color);
+}
+.orders .box-container .box .image {
+    height: 25rem;
+    width: 100%;
+    object-fit: cover;
+    transition: .5s;
+}
+.orders .box-container .box .name {
+    font-size: 1.2rem;
+    text-transform: capitalize;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+    color: var(--main-color);
+}
+.orders .box-container .box .price {
+    font-size: 1.3rem;
+    color: #000;
+}
+.orders .box-container .box .status {
+    margin-left: 0.5rem; /* Fixed the units */
+    font-size: 1rem; /* Fixed the units */
+    text-transform: capitalize;
+}
+.order-detail {
+    background-image: url("../image/bg1.webp");
+    background-size: cover;
+    padding: 4rem 0;
+}
+.order-detail .box-container {
+    border-radius: 0.5rem;
+    max-width: 1200px;
+    margin: 1rem auto;
+    padding: 2rem;
+}
+.order-detail .box-container .box {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+    overflow-x: hidden;
+}
+.order-detail .box-container .box .col {
+    flex: 1 1 30rem;
+    font-size: 1rem;
+    padding: 2rem;
+}
+
+.order-detail .box-container .box .image {
+    height: 17rem;
+    width: 100%;
+    object-fit: fill;
+    margin: 1rem 0; /* Fixed the missing unit */
+}
+.order-detail .box-container .box .col .title {
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    padding: 0.5rem 2rem;
+    font-size: 1rem;
+    color: #fff; /* Fixed the color code */
+    background-color: var(--main-color);
+    border: 2px solid var(--main-color);
+    display: inline-block;
+    text-transform: capitalize;
+}
+.order-detail .box-container .box .col .title i {
+    margin-right: 1rem;
+    color: #fff;
+}
+
+.order-detail .box-container .box .col .price {
+    color: crimson;
+    font-size: 1rem;
+    padding: 0.5rem 0; /* Fixed padding */
+    margin-top: -3rem;
+}
+.order-detail .box-container .box .col .name {
+    font-size: 1.5rem;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+}
+.order-detail .box-container .box .col .user {
+    padding: 0.5rem 0; /* Fixed padding */
+    font-size: 1.3rem;
+    color: gray;
+}
+.order-detail .box-container .box .col i {
+    margin-right: 1rem;
+    color: gray;
+}
+
+.order-detail .box-container .box .col .grand-total {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    text-transform: capitalize;
+    flex-wrap: wrap; /* Fixed "Flex-wrap" to lowercase */
+}
+.order-detail .box-container .box .col .grand-total {
+    color: orange;
+    text-transform: capitalize;
+    font-size: 1.5rem;
+}
+.order-detail .box-container .box .col .status {
+    font-size: 1.4rem;
+    padding: 0.5rem;
+    text-transform: capitalize;
+    margin-top: 3rem; /* Moved "margin-top: 3rem" inside the correct class */
+}
+.order-detail .box-container .box .col .btn {
+    width: 100%;
+    border-radius: 0.5rem;
+    margin-top: 1rem; /* Fixed "tren" to "1rem" or any valid value */
+}
+/*-------------------*/
+.icons {
+    display: flex;
+    align-items: center;
+}
+
+.icons i, .icons div {
+    font-size: 3px; /* Icon size set to 3 pixels */
+    margin-right: 10px; /* Space between icons */
+    color: pink; /* Color for icons */
+}
+
+.icons sup {
+    font-size: 10px; /* Size of the superscript numbers */
+    color: #000; /* Color of the number */
+}
+
+.icons a {
+    text-decoration: none;
+    color: inherit; /* Inherit color from parent */
+}
+/*-------------------*/
+.header {
+    background-color: #fff;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar a, .dropbtn {
+    margin: 0 1rem;
+    text-decoration: none;
+    color: #333;
+    font-size: 3rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.navbar .dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content form button {
+    padding: 12px 16px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    background-color: #f9f9f9;
+    color: black;
+    cursor: pointer;
+}
+
+.dropdown-content form button:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+}
+
+.search-form input {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.search-form button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin-left: 0.5rem;
+}
+
+.icons {
+    display: flex;
+    align-items: center;
+}
+
+.icons a {
+    margin: 0 1rem;
+}
+
+.profile-detail {
+    margin-top: 1rem;
+}
+
+.profile-detail img {
+    width: 100px;
+    border-radius: 50%;
+}
+
+.flex-btn a {
+    margin: 0.5rem;
+}
+/* Modal */
+.modal {
+    display: none; /* Ẩn modal theo mặc định */
+    position: fixed; /* Đặt ở vị trí cố định */
+    z-index: 1; /* Đặt lên trên các phần tử khác */
+    left: 0;
+    top: 0;
+    width: 100%; /* Toàn bộ chiều rộng */
+    height: 100%; /* Toàn bộ chiều cao */
+    overflow: auto; /* Cho phép cuộn nếu cần */
+    background-color: rgb(0,0,0); /* Màu nền */
+    background-color: rgba(0,0,0,0.4); /* Nền mờ */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* Đặt ở giữa màn hình */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Chiều rộng modal */
+    font-size: 1.5em; /* Tăng kích thước chữ lên 1.5 lần */
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}

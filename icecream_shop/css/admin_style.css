@@ -1,0 +1,796 @@
+*{
+    margin: 0;
+    padding: 0px; /* Thay đổi thành 8px để rõ ràng hơn */
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+    text-decoration: none;
+    list-style: none;
+}
+/* Modal */
+.modal {
+    display: none; /* Ẩn modal theo mặc định */
+    position: fixed; /* Đặt ở vị trí cố định */
+    z-index: 1; /* Đặt lên trên các phần tử khác */
+    left: 0;
+    top: 0;
+    width: 100%; /* Toàn bộ chiều rộng */
+    height: 100%; /* Toàn bộ chiều cao */
+    overflow: auto; /* Cho phép cuộn nếu cần */
+    background-color: rgb(0,0,0); /* Màu nền */
+    background-color: rgba(0,0,0,0.4); /* Nền mờ */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* Đặt ở giữa màn hình */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Chiều rộng modal */
+    font-size: 2rem; /* Tăng kích thước chữ lên 1.5 lần */
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+/*------vaiables--------*/
+:root {
+    --space: 2rem;
+    --main-color: #da6285;
+    --pink-color: #ff8e9d; /* Ví dụ về màu hồng */
+    --pink-opacity: #ffe6e9; /* Màu hồng với độ trong suốt */
+    --white-alpha-40: rgba(255, 255, 255, 0.40); /* Màu trắng với độ trong suốt 40% */
+    --white-alpha-25: rgba(255, 255, 255, 0.25); /* Màu trắng với độ trong suốt 25% */
+    --backdrop-filter: blur(5px);
+    --box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.40); /* Đổ bóng cho phần tử */
+}
+/*------global styling--------*/
+body{
+    background-image: url('../image/bg1.webp');
+    background-position: center;
+}
+html{
+    scroll-behavior: smooth;
+}
+.btn {
+    background-color: var(--white-alpha-25);
+    border: 2px solid var(--white-alpha-40);
+    backdrop-filter: var(--backdrop-filter);
+    box-shadow: var(--box-shadow);
+    text-transform: capitalize;
+    color: var(--main-color);
+    padding: .8rem 2rem;
+    border-radius: 1.5rem;
+    font-size: 20px;
+    cursor: pointer;
+    position: relative;
+    text-align: center;
+}
+.btn::before{
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    border-radius: 30px;
+    background-color: var(--main-color);
+    z-index: -1;
+}
+.btn:hover::before{
+    width: 100%;
+}
+.btn:hover {
+    color: white;
+}
+.empty{
+    background-color: var(--white-alpha-25);
+    border: 2px solid var(--white-alpha-40);
+    backdrop-filter: var(--backdrop-filter);
+    box-shadow: var(--box-shadow);
+    text-transform: capitalize;
+    color: var(--main-color);
+    padding: 1.5rem;
+    text-align: center;
+    margin: 2rem auto;
+    width: 50vw;
+    border-radius: .5rem;
+    line-height: 2;
+}
+.empty p{
+    font-size: 20px;
+}
+.box-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+    align-items: center;
+}
+.box-container .box{
+    background-color: var(--white-alpha-25);
+    border: 2px solid var(--white-alpha-40);
+    backdrop-filter: var(--backdrop-filter);
+    box-shadow: var(--box-shadow);
+    margin: 1rem;
+    border-radius: .5rem;
+}
+.heading{
+    text-align: center;
+    line-height: 1.5;
+}
+.heading h1{
+    font-size: 2rem;
+    text-transform: capitalize;
+}
+.heading span{
+    color: var(--main-color);
+    text-transform: capitalize;
+    font-size: 16px;
+}
+.heading img{
+    margin-top: .5rem;
+    width: 150px!important;
+}
+section,
+.post-editor{
+    width: 75vw;
+    min-height: 100vh;
+    padding: 4%;
+    margin: 8% 5%;
+    margin-bottom: 2%;
+}
+.flex-btn{
+    display: flex;
+    justify-content: space-between;
+}
+.flex-btn .btn{
+    margin: .5rem;
+}
+/*-----custom scroll bar-------*/
+::-webkit-scrollbar{
+    width: 5px;
+}
+::-webkit-scrollbar-thumb{
+    --webkit-border-radius: 20px;
+    border-radius: 20px;
+    height: 40px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    background-color: var(--pink-color);
+    position: relative;
+}
+::-webkit-scrollbar-track{
+    background-color: transparent;
+    --webkit-border-radius: 20px;
+    border-radius: 20px;
+    height: 40px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+/*----------form container--------*/
+.form-container {
+    display: flex;                /* Sử dụng Flexbox để sắp xếp phần tử con */
+    align-items: center;          /* Căn giữa các phần tử theo chiều dọc */
+    justify-content: center;      /* Căn giữa các phần tử theo chiều ngang */
+    flex-direction: column;
+    min-height: 100vh;            /* Chiều cao tối thiểu là 100% chiều cao của viewport */
+    padding: 4% 0;                  /* Khoảng cách bên trong là 4% chiều rộng của phần tử chứa */
+    position: relative;           /* Đặt vị trí của phần tử để có thể sử dụng các thuộc tính vị trí khác */
+}
+.form-container form {
+    background-color: var(--white-alpha-25); /* Màu nền của form */
+    border: 2px solid var(--white-alpha-40); /* Đường viền của form với độ trong suốt 40% */
+    backdrop-filter: var(--backdrop-filter); /* Bộ lọc nền của form */
+    box-shadow: var(--box-shadow); /* Đổ bóng cho form */
+    border-radius: 0.5rem; /* Bo tròn góc của form */
+    padding: 2rem; /* Khoảng cách bên trong form */
+}
+.form-container form .flex{
+    display: flex;
+    gap: 2rem;
+}
+.form-container .flex .col{
+    flex: 1 1 25rem;
+}
+.form-container .login{
+    width: 50rem;
+}
+.form-container .register{
+    width: 60rem;
+}
+.form-container .register .img-box {
+    text-align: center; /* Căn giữa nội dung bên trong img-box */
+    margin-bottom: 1rem; /* Khoảng cách phía dưới img-box */
+}
+.form-container .register .img-box img {
+    width: 180px; /* Chiều rộng của hình ảnh */
+    height: 180px; /* Chiều cao của hình ảnh */
+    border-radius: 50%; /* Bo tròn góc của hình ảnh */
+    text-align: center; /* Căn giữa nội dung bên trong hình ảnh (nếu có) */
+    padding: 10px; /* Khoảng cách bên trong hình ảnh */
+    background-color: var(--main-color); /* Màu nền của hình ảnh */
+}
+.form-container form h3 {
+    text-align: center; /* Căn giữa tiêu đề */
+    font-size: 2rem; /* Kích thước chữ của tiêu đề */
+    margin-bottom: 1rem; /* Khoảng cách phía dưới tiêu đề */
+    color: var(--main-color); /* Màu chữ của tiêu đề */
+    text-transform: capitalize; /* Viết hoa ký tự đầu tiên của mỗi từ trong tiêu đề */
+    font-weight: bolder; /* Độ đậm của chữ tiêu đề */
+}
+.form-container form p{
+    padding-top: 1rem; /* Khoảng cách phía trên của đoạn văn */
+    font-size: 1.2rem; /* Kích thước chữ của đoạn văn */
+    text-transform: capitalize; /* Viết hoa ký tự đầu tiên của mỗi từ trong đoạn văn */
+}
+.form-container form p span{
+    color: red;
+}
+.form-container form .link{
+    padding-bottom: 1rem;
+    font-size: 1.2rem;
+    text-transform: capitalize;
+}
+.form-container form .link a{
+    color: var(--main-color);
+}
+.form-container form .link a:hover{
+    color: var(--pink-color);   
+    text-decoration: underline;
+}
+.form-container form .box{
+    background-color: var(--white-alpha-25); /* Màu nền của form */
+    border: 2px solid var(--white-alpha-40); /* Đường viền của form với độ trong suốt 40% */
+    backdrop-filter: var(--backdrop-filter); /* Bộ lọc nền của form */
+    box-shadow: var(--box-shadow); /* Đổ bóng cho form */
+    width: 100%;
+    border-radius: .5rem;
+    margin: .5rem 0;
+    font-size: 1.3rem;
+    padding: 1rem;
+}
+.form-container form .textarea{
+    height: 20rem;
+    resize: none;
+}
+.form-container form .btn{
+    width: 100%;
+    font-size: 1.3rem; 
+}
+.form-container .image{
+    width: 100%;
+    height: 30rem;
+}
+.post-editor  input[type="submit"]{
+    width: 49%;
+}
+/*---------header section----------*/
+header {
+    position: fixed;
+    left: 0; /* Đặt giá trị cho thuộc tính left */
+    top: 0; /* Đặt giá trị cho thuộc tính top */
+    right: 0; /* Đặt giá trị cho thuộc tính right */
+    height: 80px;
+    z-index: 151;
+    box-shadow: 0px 1px 10px #aaa; /* Sửa cú pháp cho box-shadow */
+    padding: 0 50px; /* Sửa giá trị padding để có khoảng cách phù hợp */
+    background-color: #f4f8ee; /* Sửa giá trị màu nền để nó đúng định dạng hex */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+header .right {
+    display: flex;
+}
+#user-btn,
+.toggle-btn {
+    font-size: 2rem;
+    padding: .5rem;
+    color: var(--pink-color);
+    cursor: pointer;
+    transition: .6s;
+}
+.toggle-btn{
+    margin-left: .5rem;
+    display: none;
+}
+.profile-detail{
+    background-color: var(--white-alpha-25); /* Màu nền của form */
+    border: 2px solid var(--white-alpha-40); /* Đường viền của form với độ trong suốt 40% */
+    backdrop-filter: var(--backdrop-filter); /* Bộ lọc nền của form */
+    box-shadow: var(--box-shadow); /* Đổ bóng cho form */
+    position: absolute;
+    top: 125%;
+    right: 2rem;
+    border-radius: .5rem;
+    width: 22rem;
+    padding: 1.5rem .5rem; /* Sửa padding */
+    animation:  0.2s linear fadeIn; /* Sửa cú pháp animation */
+    text-align: center;
+    overflow: hidden;
+    display: none;
+}
+@keyframes fadeIn {
+    0% {
+        opacity: 0; /* Bắt đầu với độ mờ 0 */
+        transform: translateY(1rem); /* Di chuyển từ dưới lên 1rem */
+    }
+    100% {
+        opacity: 1; /* Kết thúc với độ mờ 1 */
+        transform: translateY(0); /* Di chuyển về vị trí gốc */
+    }
+}
+.profile-detail p{
+    padding-bottom: 0.7rem; /* Khoảng cách bên dưới đoạn văn */
+    font-size: 1.5rem; /* Kích thước font */
+    text-transform: capitalize; /* Viết hoa chữ cái đầu tiên của mỗi từ */
+    color: lightgray; /* Màu sắc văn bản */
+}
+.profile-detail .flex-btn {
+    display: flex; /* Sử dụng Flexbox */
+    justify-content: space-evenly; /* Căn chỉnh các phần tử đều khoảng cách */
+}
+.profile-detail .flex-btn .btn {
+    margin: 0 .5rem; /* Khoảng cách bên ngoài các nút */
+}
+.main-container{
+    display: flex;
+}
+.sidebar {
+    position: fixed; /* Giữ menu cố định */
+    background-color: var(--white-alpha-25); 
+    backdrop-filter: var(--backdrop-filter);
+    padding-top: 3rem; 
+    width: 18vw;
+    height: 100vh; 
+    position: sticky; 
+    --offset: var(--space)
+    top: var(--offset); 
+    box-shadow: 0px 5px 10px 0 #aaa; 
+    overflow: auto; 
+    z-index: 1; 
+}
+.profile-detail.active {
+    display: inline-block;
+}
+.sidebar h5 {
+    text-transform: uppercase; 
+    color: var(--main-color); 
+    padding: 0.5rem 1rem; 
+    margin: 0.5rem 0; 
+}
+.profile {
+    margin: 0.5rem auto;
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+}
+.sidebar .profile {
+    margin-top: 2.5rem; 
+}
+.profile .logo-img{
+    border-radius: 50%;
+    padding: .2rem;
+    border: 2px solid var(--main-color);
+}
+.sidebar .profile p{
+    margin-top: 0.5rem; 
+    text-transform: uppercase;
+    font-weight: bolder; 
+    color: #000; 
+    font-size: 1.3rem; 
+}
+.sidebar ul li {
+    padding: 1rem; 
+    background-color: var(--white-alpha-25);
+    border: 2px solid var(--white-alpha-40);
+    backdrop-filter: var(--backdrop-filter); 
+    box-shadow: var(--box-shadow); 
+    position: relative; 
+    transition: .5s; 
+    margin: 0.5rem 0;
+}
+.sidebar ul li::before {
+    position: absolute;
+    content: ''; 
+    left: 0; 
+    top: 0; 
+    height: 0%; 
+    width: 5px; 
+    background-color: var(--main-color); 
+    z-index: 2; 
+    transition: all 200ms linear; 
+}
+.sidebar ul li:hover::before {
+    height: 100%;
+}
+.sidebar ul li i {
+    color: var(--main-color);
+    font-size: 20px;
+    margin-right: 2rem;
+}
+.sidebar ul li a {
+    text-transform: uppercase; /* Chuyển đổi văn bản thành chữ hoa */
+    color: gray; /* Màu chữ của các liên kết */
+    font-size: 12px; /* Kích thước chữ của các liên kết */
+    font-weight: bold; /* Đặt trọng số font là đậm */
+}
+.social-links {
+    margin-bottom: 2rem;
+}
+.social-links i {
+    background-color: var(--white-alpha-25); /* Màu nền của các biểu tượng */
+    border: 2px solid var(--white-alpha-40); /* Viền của các biểu tượng */
+    backdrop-filter: var(--backdrop-filter); /* Hiệu ứng lọc nền */
+    box-shadow: var(--box-shadow); /* Đổ bóng cho các biểu tượng */
+    cursor: pointer; /* Hiển thị con trỏ chuột dạng tay khi hover */
+    margin: .3rem; /* Khoảng cách bên ngoài của các biểu tượng */
+    width: 40px; /* Chiều rộng của các biểu tượng */
+    height: 40px; /* Chiều cao của các biểu tượng */
+    line-height: 40px; /* Chiều cao dòng để căn giữa văn bản */
+    text-align: center; /* Căn giữa văn bản trong các biểu tượng */
+    font-size: 20px; /* Kích thước chữ của các biểu tượng */
+    transition: .5s; /* Hiệu ứng chuyển tiếp khi hover */
+    border-radius: 50%;
+    color: var(--main-color);
+}
+.social-links i:hover {
+    background-color: var(--pink-opacity); /* Màu nền khi hover */
+    border: 2px solid var(--main-color); /* Viền khi hover */
+
+}
+/*--------profile section--------------*/
+.seller-profile .details {
+    background-color: var(--white-alpha-25);
+    border: 2px solid var(--white-alpha-40);
+    backdrop-filter: var(--backdrop-filter);
+    box-shadow: var(--box-shadow);
+    text-align: center;
+    border-radius: .5rem;
+    padding: 1rem; /* Added unit 'rem' to padding value */
+}
+
+.seller-profile .details .seller {
+    margin-bottom: 2rem;
+}
+
+.seller-profile .details .seller img {
+    width: 10rem; /* Corrected the width value */
+    height: 10rem;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: .5rem; /* Corrected the margin-bottom value */
+    padding: .5rem; /* Added padding value for spacing */
+    background-color: var(--main-color);
+}
+.seller-profile .details .seller h3 {
+    font-size: 1.5rem;
+    margin: 0.5rem 0; /* Corrected margin value and added unit */
+    text-transform: capitalize;
+}
+
+.seller-profile .details .seller span {
+    font-size: 1.2rem;
+    color: gray;
+    display: block;
+    margin-bottom: 2rem;
+    text-transform: capitalize;
+}
+
+.seller-profile .details .flex {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 4rem 0; /* Added unit and corrected value */
+}
+.seller-profile .details .flex .box {
+    flex: 1 1 26rem;
+    border-radius: 0.5rem; /* Corrected the syntax for border-radius */
+    background-color: #cccccc33; /* This color is in RGBA format, providing transparency */
+    padding: 2rem; /* Corrected the unit for padding */
+}
+.seller-profile .details .flex .box span {
+    color: var(--main-color); /* Corrected the syntax for the color property */
+    display: block;
+    margin-bottom: 0.5rem; /* Corrected the unit for margin-bottom */
+    font-size: 2.5rem;
+    text-transform: capitalize;
+}
+
+.seller-profile .details .flex .box p {
+    font-size: 2rem;
+    color: #000; /* Corrected the color value */
+    padding: 0.5rem 0; /* Corrected the unit for padding */
+    margin-bottom: 1rem; /* Added a unit to the margin-bottom value */
+}
+.message-container .box-container .box {
+    line-height: 2;
+    padding: 2rem;
+}
+.message-container .box-container .box .name {
+    text-transform: capitalize;
+    font-size: 1.5rem;
+}
+.message-container .box-container .box h4 {
+    text-transform: capitalize;
+    color: var(--main-color);
+}
+.message-container .box-container .box p {
+    margin-bottom: 1rem;
+}
+
+.order-container .box-container .box {
+    padding: 1rem;
+    position: relative;
+}
+.order-container .box-container .box .status {
+    position: absolute;
+    left: -4%;
+    top: 1%;
+    text-transform: uppercase;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: var(--box-shadow);
+    background-color: var(--white-alpha-40);
+    display: inline-block;
+    padding: 0.5rem;
+}
+.order-container .box-container .box .details {
+    margin-top: 3rem;
+    line-height: 2;
+    color: gray;
+    text-transform: capitalize;
+}
+.order-container .box-container .box span {
+    text-transform: none;
+}
+
+.user-container .box-container {
+    margin-top: 3rem;
+}
+.user-container .box-container .box {
+    text-align: center;
+    padding: 2rem;
+    text-transform: capitalize;
+    line-height: 2;
+    color: gray;
+    margin-bottom: 4rem;
+}
+.user-container .box-container .box span {
+    text-transform: none;
+}
+.user-container .box-container .box img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    box-shadow: var(--box-shadow);
+    padding: 0.5rem;
+    background-color: var(--white-alpha-40);
+    margin-top: -5rem; /* Thay đổi theo yêu cầu của bạn */
+    margin-bottom: 1rem;
+}
+
+
+
+
+/*--------media--------*/
+@media screen and (max-width: 991px) {
+    .toggle-btn {
+        display: block;
+    }
+    .sidebar {
+        padding-top: 4rem;
+        position: fixed;
+        width: 0;
+        transition: 0.5s;
+        z-index: 101;
+        top: 7%;
+    }
+    .sidebar.active {
+        width: 300px;
+    }
+    .sidebar .profile {
+        margin-top: 0.5rem;
+    }
+    section {
+        width: 100%;
+    }
+}
+/*----doshboard ------*/
+.dashboard .box-container .box {
+    text-align: center;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    padding-bottom: 3rem;
+}
+
+.dashboard .box-container .box h3 {
+    font-size: 2.7rem;
+    margin-bottom: -1rem;
+}
+
+.dashboard .box-container .box p {
+    padding: 1rem;
+    font-size: 1.8rem;
+    text-transform: capitalize;
+    margin: 1rem 0;
+}
+
+.show-post .box-container .box{
+    position: relative;
+    overflow: hidden;
+}
+
+.show-post .box-container .box:hover .image{
+     transform: scale(1.1);
+}
+
+.show-post .box-container .box .image{
+    width: 100%;
+    height: 25rem;
+    object-fit: cover;
+    transition: .5s;
+    background-color: palegreen;
+
+}
+
+.show-post .box-container .box .content{ 
+    position: relative; 
+    display: block; 
+    background-color: #FFF; 
+    padding: 40px 10px; 
+    margin-top: -80px; 
+    border-top-right-radius: 80px; 
+    text-align: center; 
+    line-height: 1.5; 
+    text-transform: capitalize;
+}
+.show-post .box-container .box .content .shap{ 
+    position: absolute; 
+    Left: 0; 
+    top: -80px; 
+    width: 80px; 
+    height: 80px; 
+    background-repeat: no-repeat;
+}
+.show-post .box-container .box .status{ 
+    position: absolute; 
+    Left: 1%; 
+    top: 1%;
+    text-transform: uppercase; 
+    font-size: 1rem; 
+    margin-bottom: 1rem; 
+    padding: .5rem 1rem; 
+    border-radius: .5rem; 
+    display: inLine-block; 
+    background-color: var(--white-alpha-40); 
+}
+.show-post .box-container .box .price { 
+    width: 70px; 
+    height: 70px; 
+    Line-height: 70px; 
+    text-align: center; 
+    border-radius: 50%; 
+    position: absolute; 
+    right: 5%; 
+    top: 5%; 
+    font-weight: bolder; 
+    background-color: var(--pink-color);
+    font-size: 1.5rem;
+ } 
+ .show-post .box-container .box .content .title{ 
+    font-size: 1.2rem; 
+    text-transform: uppercase; 
+    text-align: center;
+    margin-bottom: 1rem;
+ }
+ .show-post .box-container .box .post-content{ 
+    font-size: 1.3rem; 
+    Line-height: 1.5; 
+    padding: 1rem 0;
+}
+.show-post .box-container .box .btn{ 
+    margin: .2rem; 
+    padding: .2rem 1.5rem; 
+    width: 30%; 
+    text-align: center;
+}
+.show-post .box-container .box button{ 
+    width: 30%;
+}
+
+.post-editor img{ 
+    width: 100%;
+}
+.read-post {
+    display: flex;
+    flex-direction: column;
+}
+
+.read-post form {
+    width: 100%;
+    padding: 2rem;
+    position: relative;
+}
+
+.read-post form .status {
+    border-radius: 0.5rem;
+    padding: 0.5rem 2rem;
+    font-size: 1.1rem;
+    display: inline-block;
+    text-transform: uppercase;
+}
+
+.read-post form .price {
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    font-weight: bolder;
+    font-size: 2rem;
+}
+.read-post form .image {
+    width: 100%;
+    border-radius: 0.5rem;
+    margin-top: 1.5rem;
+}
+.read-post form .title {
+    font-size: 2.5rem;
+    color: var(--main-color);
+    margin-top: 1.5rem;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.read-post form .content {
+    line-height: 2;
+    font-size: 1.2rem;
+    color: gray;
+    padding: 1rem 0;
+}
+.read-post form .flex-btn {
+    justify-content: space-between;
+}
+
+.read-post form .flex-btn .btn {
+    width: 33%;
+    text-align: center;
+}
+.read-post form .flex-btn a {
+    height: 50px; /* Chiều cao của các liên kết */
+    margin-top: .8rem; /* Khoảng cách trên các liên kết */
+}
+/*----------------*/
+.icons {
+    display: flex;
+    align-items: center;
+}
+
+.icons i, .icons div {
+    font-size: 3px; /* Icon size set to 3 pixels */
+    margin-right: 10px; /* Space between icons */
+    color: pink; /* Color for icons */
+}
+
+.icons sup {
+    font-size: 10px; /* Size of the superscript numbers */
+    color: #000; /* Color of the number */
+}
+
+.icons a {
+    text-decoration: none;
+    color: inherit; /* Inherit color from parent */
+}
