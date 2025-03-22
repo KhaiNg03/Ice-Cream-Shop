@@ -40,11 +40,5 @@ Dự án này là một trang web bán kem sống động và tương tác, đư
 - Tích hợp đăng nhập người dùng để cá nhân hóa trải nghiệm.
 - Áp dụng chương trình khách hàng thân thiết và khuyến mãi.
 
-## Liên Hệ
-Nếu có bất kỳ thắc mắc nào, vui lòng liên hệ với chúng tôi qua:
-- **Email**: support@icecreamshop.com
-- **Điện thoại**: +123 456 7890
-- **Website**: [www.icecreamshop.com](http://www.icecreamshop.com)
-
 Chúc bạn có trải nghiệm mua sắm kem vui vẻ! 🍦🎉
 
